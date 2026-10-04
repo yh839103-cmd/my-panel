@@ -30,7 +30,7 @@
     }
     .header {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
     }
     .header h1 {
       font-size: 2.2rem;
@@ -52,7 +52,7 @@
       border-left: 4px solid #3498db;
       padding: 15px 20px;
       border-radius: 8px;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
       font-style: italic;
       color: #555;
     }
@@ -61,6 +61,9 @@
       color: #34495e;
       margin-bottom: 15px;
       font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
     .grid {
       display: grid;
@@ -72,7 +75,7 @@
       background: #ffffff;
       border: 1px solid #e2e8f0;
       border-radius: 12px;
-      padding: 20px;
+      padding: 18px;
       text-align: center;
       text-decoration: none;
       color: #2c3e50;
@@ -80,7 +83,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
     .card:hover {
       transform: translateY(-4px);
@@ -94,63 +97,101 @@
       font-weight: 600;
       font-size: 1rem;
     }
-    .todo-section {
+    /* 行事曆樣式 */
+    .calendar-section {
       background: #f8fafc;
-      border-radius: 12px;
-      padding: 20px;
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid #e2e8f0;
     }
-    .todo-input-box {
+    .calendar-header {
       display: flex;
-      gap: 10px;
-      margin-bottom: 15px;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
     }
-    .todo-input-box input {
-      flex: 1;
-      padding: 10px 14px;
+    .calendar-header h2 {
+      font-size: 1.3rem;
+      color: #2c3e50;
+      font-weight: 600;
+    }
+    .cal-nav-btn {
+      background: #ffffff;
       border: 1px solid #cbd5e1;
       border-radius: 8px;
-      font-size: 0.95rem;
-      outline: none;
-    }
-    .todo-input-box input:focus {
-      border-color: #3498db;
-    }
-    .todo-input-box button {
-      padding: 10px 20px;
-      background: #3498db;
-      color: white;
-      border: none;
-      border-radius: 8px;
+      padding: 6px 14px;
       cursor: pointer;
       font-weight: 600;
-      transition: background 0.2s;
+      color: #475569;
+      transition: all 0.2s;
     }
-    .todo-input-box button:hover {
-      background: #2980b9;
+    .cal-nav-btn:hover {
+      background: #3498db;
+      color: white;
+      border-color: #3498db;
     }
-    .todo-list {
-      list-style: none;
+    .calendar-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      font-weight: 600;
+      color: #64748b;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
     }
-    .todo-item {
+    .calendar-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+    }
+    .cal-day {
+      aspect-ratio: 1;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: space-between;
-      padding: 10px 12px;
+      justify-content: center;
       background: white;
+      border-radius: 10px;
       border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      margin-bottom: 8px;
-    }
-    .todo-item.done span {
-      text-decoration: line-through;
-      color: #94a3b8;
-    }
-    .del-btn {
-      color: #e74c3c;
-      background: none;
-      border: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #334155;
+      transition: all 0.2s;
       cursor: pointer;
-      font-size: 1.1rem;
+    }
+    .cal-day:hover {
+      background: #e0f2fe;
+      border-color: #38bdf8;
+    }
+    .cal-day.empty {
+      background: transparent;
+      border: none;
+      cursor: default;
+    }
+    .cal-day.today {
+      background: #3498db;
+      color: white;
+      font-weight: 700;
+      border-color: #2980b9;
+      box-shadow: 0 4px 10px rgba(52, 152, 219, 0.35);
+    }
+    .schedule-memo {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+    .schedule-memo .badge {
+      background: #e0f2fe;
+      color: #0369a1;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.8rem;
     }
     footer {
       text-align: center;
@@ -192,13 +233,27 @@
       </a>
     </div>
 
-    <div class="section-title">📝 今日待辦清單</div>
-    <div class="todo-section">
-      <div class="todo-input-box">
-        <input type="text" id="todo-input" placeholder="新增待辦事項..." onkeypress="if(event.key === 'Enter') addTodo()">
-        <button onclick="addTodo()">新增</button>
+    <div class="section-title">📅 月曆與行事曆</div>
+    <div class="calendar-section">
+      <div class="calendar-header">
+        <button class="cal-nav-btn" onclick="prevMonth()">‹ 上個月</button>
+        <h2 id="calendar-month-year">2026 年 10 月</h2>
+        <button class="cal-nav-btn" onclick="nextMonth()">下個月 ›</button>
       </div>
-      <ul class="todo-list" id="todo-list"></ul>
+      <div class="calendar-weekdays">
+        <div>日</div>
+        <div>一</div>
+        <div>二</div>
+        <div>三</div>
+        <div>四</div>
+        <div>五</div>
+        <div>六</div>
+      </div>
+      <div class="calendar-days" id="calendar-days"></div>
+      <div class="schedule-memo">
+        <span>📍 點擊面板快速掌握日程規劃</span>
+        <span class="badge" id="selected-info">今日：2026/10/04</span>
+      </div>
     </div>
 
     <footer>
@@ -220,39 +275,56 @@
     setInterval(updateTime, 1000);
     updateTime();
 
-    let todos = JSON.parse(localStorage.getItem('my_panel_todos') || '["完成 W3 作業", "喝 2000c.c. 水", "好好休息"]');
+    let currentDate = new Date();
 
-    function renderTodos() {
-      const list = document.getElementById('todo-list');
-      list.innerHTML = '';
-      todos.forEach((todo, idx) => {
-        const li = document.createElement('li');
-        li.className = 'todo-item';
-        li.innerHTML = `
-          <span>${todo}</span>
-          <button class="del-btn" onclick="deleteTodo(${idx})">✕</button>
-        `;
-        list.appendChild(li);
-      });
-      localStorage.setItem('my_panel_todos', JSON.stringify(todos));
-    }
+    function renderCalendar() {
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth();
 
-    function addTodo() {
-      const input = document.getElementById('todo-input');
-      const text = input.value.trim();
-      if (text) {
-        todos.push(text);
-        input.value = '';
-        renderTodos();
+      document.getElementById('calendar-month-year').textContent = `${year} 年 ${month + 1} 月`;
+
+      const firstDayIndex = new Date(year, month, 1).getDay();
+      const totalDays = new Date(year, month + 1, 0).getDate();
+
+      const daysContainer = document.getElementById('calendar-days');
+      daysContainer.innerHTML = '';
+
+      for (let i = 0; i < firstDayIndex; i++) {
+        const emptyDiv = document.createElement('div');
+        emptyDiv.className = 'cal-day empty';
+        daysContainer.appendChild(emptyDiv);
+      }
+
+      const today = new Date();
+
+      for (let day = 1; day <= totalDays; day++) {
+        const dayDiv = document.createElement('div');
+        dayDiv.className = 'cal-day';
+        dayDiv.textContent = day;
+
+        if (day === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+          dayDiv.classList.add('today');
+        }
+
+        dayDiv.onclick = () => {
+          document.getElementById('selected-info').textContent = `已選擇：${year}/${month + 1}/${day}`;
+        };
+
+        daysContainer.appendChild(dayDiv);
       }
     }
 
-    function deleteTodo(idx) {
-      todos.splice(idx, 1);
-      renderTodos();
+    function prevMonth() {
+      currentDate.setMonth(currentDate.getMonth() - 1);
+      renderCalendar();
     }
 
-    renderTodos();
+    function nextMonth() {
+      currentDate.setMonth(currentDate.getMonth() + 1);
+      renderCalendar();
+    }
+
+    renderCalendar();
   </script>
 </body>
 </html>
