@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Panel - 個人生活儀表板</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #333;
+    }
+    .panel-container {
+      background: #ffffff;
+      width: 100%;
+      max-width: 800px;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+      padding: 35px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .header h1 {
+      font-size: 2.2rem;
+      color: #2c3e50;
+      margin-bottom: 8px;
+    }
+    .clock {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #3498db;
+      margin-bottom: 6px;
+    }
+    .date-str {
+      color: #7f8c8d;
+      font-size: 0.95rem;
+    }
+    .quote-box {
+      background: #f8fafc;
+      border-left: 4px solid #3498db;
+      padding: 15px 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      font-style: italic;
+      color: #555;
+    }
+    .section-title {
+      font-size: 1.2rem;
+      color: #34495e;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      text-decoration: none;
+      color: #2c3e50;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      border-color: #3498db;
+    }
+    .card .icon {
+      font-size: 2rem;
+    }
+    .card .name {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .todo-section {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .todo-input-box {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .todo-input-box input {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      outline: none;
+    }
+    .todo-input-box input:focus {
+      border-color: #3498db;
+    }
+    .todo-input-box button {
+      padding: 10px 20px;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .todo-input-box button:hover {
+      background: #2980b9;
+    }
+    .todo-list {
+      list-style: none;
+    }
+    .todo-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+    .todo-item.done span {
+      text-decoration: line-through;
+      color: #94a3b8;
+    }
+    .del-btn {
+      color: #e74c3c;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.85rem;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <div class="panel-container">
+    <div class="header">
+      <h1>✨ My Panel 生活儀表板</h1>
+      <div class="clock" id="clock">00:00:00</div>
+      <div class="date-str" id="date-str">載入中...</div>
+    </div>
+
+    <div class="quote-box" id="quote">
+      💡 「每一次微小的進步，都是未來巨大成就的基石。」
+    </div>
+
+    <div class="section-title">📌 常用快速連結</div>
+    <div class="grid">
+      <a href="https://elearn4.ndhu.edu.tw/" target="_blank" class="card">
+        <span class="icon">🎓</span>
+        <span class="name">東華 eLearn</span>
+      </a>
+      <a href="https://github.com/" target="_blank" class="card">
+        <span class="icon">🐙</span>
+        <span class="name">GitHub</span>
+      </a>
+      <a href="https://chatgpt.com/" target="_blank" class="card">
+        <span class="icon">🤖</span>
+        <span class="name">ChatGPT</span>
+      </a>
+      <a href="https://www.google.com/" target="_blank" class="card">
+        <span class="icon">🔍</span>
+        <span class="name">Google</span>
+      </a>
+    </div>
+
+    <div class="section-title">📝 今日待辦清單</div>
+    <div class="todo-section">
+      <div class="todo-input-box">
+        <input type="text" id="todo-input" placeholder="新增待辦事項..." onkeypress="if(event.key === 'Enter') addTodo()">
+        <button onclick="addTodo()">新增</button>
+      </div>
+      <ul class="todo-list" id="todo-list"></ul>
+    </div>
+
+    <footer>
+      Powered by GitHub Pages | 創意生活應用
+    </footer>
+  </div>
+
+  <script>
+    function updateTime() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+
+      const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+      document.getElementById('date-str').textContent = now.toLocaleDateString('zh-TW', options);
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    let todos = JSON.parse(localStorage.getItem('my_panel_todos') || '["完成 W3 作業", "喝 2000c.c. 水", "好好休息"]');
+
+    function renderTodos() {
+      const list = document.getElementById('todo-list');
+      list.innerHTML = '';
+      todos.forEach((todo, idx) => {
+        const li = document.createElement('li');
+        li.className = 'todo-item';
+        li.innerHTML = `
+          <span>${todo}</span>
+          <button class="del-btn" onclick="deleteTodo(${idx})">✕</button>
+        `;
+        list.appendChild(li);
+      });
+      localStorage.setItem('my_panel_todos', JSON.stringify(todos));
+    }
+
+    function addTodo() {
+      const input = document.getElementById('todo-input');
+      const text = input.value.trim();
+      if (text) {
+        todos.push(text);
+        input.value = '';
+        renderTodos();
+      }
+    }
+
+    function deleteTodo(idx) {
+      todos.splice(idx, 1);
+      renderTodos();
+    }
+
+    renderTodos();
+  </script>
+</body>
+</html>
